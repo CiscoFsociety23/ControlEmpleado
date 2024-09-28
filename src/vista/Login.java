@@ -158,7 +158,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
           usu=dao.login(txtuser.getText(),txtpass.getText());
-          if (usu.getUsuario()!= null && usu.getPassword()!=null){
+          if (usu.getCorreo()!= null && usu.getPassword()!=null){
               JOptionPane.showMessageDialog(null, "Bienvenido"); 
               Principal prin = new Principal();
               prin.setVisible(true);

@@ -5,16 +5,16 @@ package modelo;
 public class Usuarios {
     int idUser;
     String nombre;
-    String usuario;
+    String correo;
     String password;
 
     public Usuarios() {
     }
 
-    public Usuarios(int idUser, String nombre, String usuario, String password) {
+    public Usuarios(int idUser, String nombre, String correo, String password) {
         this.idUser = idUser;
         this.nombre = nombre;
-        this.usuario = usuario;
+        this.correo = correo;
         this.password = password;
     }
 
@@ -34,12 +34,12 @@ public class Usuarios {
         this.nombre = nombre;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getPassword() {

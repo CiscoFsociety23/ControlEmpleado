@@ -37,7 +37,7 @@ public class UsuariosDao {
     
     public Usuarios login(String user, String pass) {
     Usuarios us = new Usuarios();
-    String sql = "SELECT * FROM usuarios WHERE usuario = ? AND password = ?";
+    String sql = "SELECT * FROM Empleado WHERE Nombre = ? AND Contrasena = ?";
     try {
         con = cn.conectar();
         ps = con.prepareStatement(sql);
@@ -45,10 +45,10 @@ public class UsuariosDao {
         ps.setString(2, pass);
         rs = ps.executeQuery();
         if (rs.next()) {
-            us.setIdUser(rs.getInt("id"));
-            us.setNombre(rs.getString("nombre"));
-            us.setUsuario(rs.getString("usuario"));
-            us.setPassword(rs.getString("password"));
+            us.setIdUser(rs.getInt("IdEmpleado"));
+            us.setNombre(rs.getString("Nombre"));
+            us.setCorreo(rs.getString("Correo"));
+            us.setPassword(rs.getString("Contrasena"));
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error al intentar iniciar sesión: " + e.getMessage());
