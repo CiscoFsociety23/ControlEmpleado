@@ -6,7 +6,6 @@ package vista;
 
 import dao.UsuariosDao;
 import javax.swing.JOptionPane;
-import modelo.Usuarios;
 
 /**
  *
@@ -14,8 +13,7 @@ import modelo.Usuarios;
  */
 public class Login extends javax.swing.JFrame {
 
-    UsuariosDao dao = new UsuariosDao();
-    Usuarios usu = new Usuarios();
+    UsuariosDao userService = new UsuariosDao();
     
     public Login() {
         initComponents();
@@ -157,15 +155,16 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        usu=dao.login(txtuser.getText(),txtpass.getText());
-        if (usu.getCorreo()!= null && usu.getPassword()!=null){
+        String correo = txtuser.getText();
+        String contrasena = txtpass.getText();
+        if(userService.verificarCredenciales(correo, contrasena)){
             JOptionPane.showMessageDialog(null, "Bienvenido"); 
             Principal prin = new Principal();
             prin.setVisible(true);
             dispose();
         } else {
-          JOptionPane.showMessageDialog(null,"Acceso denengado");
-        }
+            JOptionPane.showMessageDialog(null, "Acceso no valido");
+        }        
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     /**

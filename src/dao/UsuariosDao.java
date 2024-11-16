@@ -1,120 +1,58 @@
-
 package dao;
 
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
-import modelo.Usuarios;
-
- 
-public class UsuariosDao {
-    Connection con;
-    ConexionDao cn = new ConexionDao();
-    PreparedStatement ps;
-    ResultSet rs;
-    
-    /*public Usuarios login(String user,String pass){
-      Usuarios us = new Usuarios();
-      String sql ="select * from usuarios where usuario ='"+user+"'and password'"+pass+" '";
-      try{
-      con=cn.conectar();
-      ps=con.prepareStatement(sql);
-      rs=ps.executeQuery();
-      while (rs.next()){
-        us.setIdUser(rs.getInt(1));
-        us.setNombre(rs.getString(2));
-        us.setUsuario(rs.getString(3));
-        us.setPassword(rs.getString(4));
-          
-         }
-      }catch(Exception e){
-       JOptionPane.showMessageDialog(null,e);
-      }
-      return us;
-    }*/
-    
-    public Usuarios login(String user, String pass) {
-        Usuarios us = new Usuarios();
-        String sql = "SELECT * FROM Empleado WHERE Nombre = ? AND Contrasena = ?";
-        try {
-            con = ConexionDao.conectar();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, user);
-            ps.setString(2, pass);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                us.setIdUser(rs.getInt("IdEmpleado"));
-                us.setNombre(rs.getString("Nombre"));
-                us.setCorreo(rs.getString("Correo"));
-                us.setPassword(rs.getString("Contrasena"));
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al intentar iniciar sesión: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (con != null) con.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e.getMessage());
-            }
-        }
-        return us;
-    }
-
-    
-}
-
-/*
-///////////////codigo  mas seguro////////////
-package dao;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
-import modelo.Usuarios;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class UsuariosDao {
-    Connection con;
-    ConexionDao cn = new ConexionDao();
-    PreparedStatement ps;
-    ResultSet rs;
-
-    // Método para login
-    public Usuarios login(String user, String pass) {
-        Usuarios us = new Usuarios();
-        String sql = "SELECT * FROM usuarios WHERE usuario = ? AND password = ?";
+    
+    public Boolean verificarCredenciales(String correo, String contrasena){
         try {
-            con = cn.conectar();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, user);  // Setea el primer parámetro (usuario)
-            ps.setString(2, pass);  // Setea el segundo parámetro (contraseña)
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                us.setIdUser(rs.getInt("id"));  // Ajusta según el nombre real de la columna en la base de datos
-                us.setNombre(rs.getString("nombre"));
-                us.setUsuario(rs.getString("usuario"));
-                us.setPassword(rs.getString("password"));
+            
+            URL url = new URL("https://dev.dedsec.cl/AsistenciaManager/verificarAcceso");
+            
+            // Crear la conexión HTTP
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true); // Necesario para enviar datos en el cuerpo
+            
+            // JSON a enviar
+            String jsonInputString = String.format("{\"correo\": \"%s\", \"contrasena\": \"%s\"}", correo, contrasena);
+
+            // Escribir los datos en el cuerpo de la solicitud
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al intentar iniciar sesión: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (con != null) con.close();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e.getMessage());
+            
+            // Obtener la respuesta
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Leer la respuesta del servidor
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                // La respuesta es un valor booleano en forma de "true" o "false"
+                boolean result = Boolean.parseBoolean(response.toString());
+                System.out.println("Respuesta del servidor: " + result);
+                
+                return result;
             }
+        } catch(IOException e) {
+            System.out.println("Ha ocurrido un error al verificar credenciales: " + e.getMessage());
+            return false;
         }
-        return us;
     }
+    
 }
-
-
-
-*/
