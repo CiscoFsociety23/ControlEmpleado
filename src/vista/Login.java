@@ -155,13 +155,17 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+        
         String correo = txtuser.getText();
         String contrasena = txtpass.getText();
+        
         if(userService.verificarCredenciales(correo, contrasena)){
+            
             JOptionPane.showMessageDialog(null, "Bienvenido"); 
             Principal prin = new Principal();
             prin.setVisible(true);
             dispose();
+            
         } else {
             JOptionPane.showMessageDialog(null, "Acceso no valido");
         }        
