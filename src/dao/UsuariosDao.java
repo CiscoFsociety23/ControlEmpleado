@@ -13,7 +13,7 @@ public class UsuariosDao {
     public Boolean verificarCredenciales(String correo, String contrasena){
         try {
             
-            URL url = new URL("https://dev.dedsec.cl/AsistenciaManager/verificarAcceso");
+            URL url = new URL("https://dedsec.cl/AsistenciaManager/verificarAcceso");
             
             // Crear la conexión HTTP
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
