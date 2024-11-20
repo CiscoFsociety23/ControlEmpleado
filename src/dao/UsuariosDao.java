@@ -1,4 +1,4 @@
-package dao;
+package src.dao;
 
 import java.io.BufferedReader;
 import java.io.IOException;

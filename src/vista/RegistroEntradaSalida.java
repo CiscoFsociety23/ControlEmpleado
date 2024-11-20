@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package vista;
+package src.vista;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.JLabel;
 public class RegistroEntradaSalida extends javax.swing.JFrame {
 
     /**
