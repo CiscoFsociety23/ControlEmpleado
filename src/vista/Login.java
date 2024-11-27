@@ -163,7 +163,7 @@ public class Login extends javax.swing.JFrame {
         if(userService.verificarCredenciales(correo, contrasena)){
             
             Empleado empleado = userService.obtenerEmpleado(correo);
-            JOptionPane.showMessageDialog(null, "Bienvenido " + empleado.getNombre()); 
+            JOptionPane.showMessageDialog(null, "Bienvenido" + empleado.getNombre()); 
             
             if(empleado.getRol().equals("ADMIN")){
                 Principal prin = new Principal();

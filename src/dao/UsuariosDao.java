@@ -15,6 +15,8 @@ public class UsuariosDao {
     public Empleado obtenerEmpleado(String correo){
         try {
             
+            System.out.println("obtenerEmpleado(): Obteniendo datos del empleado " + correo);
+            
             String urlApi = "https://dev.dedsec.cl/AsistenciaManager/Empleado/obtenerEmpleadoCorreo?correo=" + correo;
             URL url = new URL(urlApi);
             
@@ -40,7 +42,7 @@ public class UsuariosDao {
                 ObjectMapper objMap = new ObjectMapper();
                 Empleado empleado = objMap.readValue(response.toString(), Empleado.class);
                 
-                System.out.println("Empleado con rut: " + empleado.getRut());
+                System.out.println("obtenerEmpleado(): Empleado encontrado con exito: " + empleado.getRut());
                 return empleado;
             }            
         } catch (Exception e){
@@ -51,6 +53,8 @@ public class UsuariosDao {
     
     public Boolean verificarCredenciales(String correo, String contrasena){
         try {
+            
+            System.out.println("verificarCredenciales(): Verificando credeciales del usuario " + correo);
             
             URL url = new URL("https://dev.dedsec.cl/AsistenciaManager/verificarAcceso");
             
@@ -84,7 +88,7 @@ public class UsuariosDao {
 
                 // La respuesta es un valor booleano en forma de "true" o "false"
                 boolean result = Boolean.parseBoolean(response.toString());
-                System.out.println("Respuesta del servidor: " + result);
+                System.out.println("verificarCredenciales(): Credenciales validas? " + result);
                 
                 return result;
             }
