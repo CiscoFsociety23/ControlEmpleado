@@ -36,14 +36,13 @@ public class UsuariosDao {
                     response.append(inputLine);
                 }
                 
+                // Transformando la respuesta en el objeto Empleado
                 ObjectMapper objMap = new ObjectMapper();
                 Empleado empleado = objMap.readValue(response.toString(), Empleado.class);
                 
                 System.out.println("Empleado con rut: " + empleado.getRut());
-                
                 return empleado;
-            }
-            
+            }            
         } catch (Exception e){
             System.out.println(e.getMessage());
             return null;

@@ -5,6 +5,7 @@
 package vista;
 
 import dao.UsuariosDao;
+import dto.Empleado;
 import javax.swing.JOptionPane;
 
 /**
@@ -161,11 +162,18 @@ public class Login extends javax.swing.JFrame {
         
         if(userService.verificarCredenciales(correo, contrasena)){
             
-            JOptionPane.showMessageDialog(null, "Bienvenido"); 
-            userService.obtenerEmpleado(correo);
-            //Principal prin = new Principal();
-            //prin.setVisible(true);
-            //dispose();
+            Empleado empleado = userService.obtenerEmpleado(correo);
+            JOptionPane.showMessageDialog(null, "Bienvenido " + empleado.getNombre()); 
+            
+            if(empleado.getRol().equals("ADMIN")){
+                Principal prin = new Principal();
+                prin.setVisible(true);
+                dispose();
+            } else {
+                RegistroEntradaSalida marcaje = new RegistroEntradaSalida();
+                marcaje.setVisible(true);
+                dispose();
+            }         
             
         } else {
             JOptionPane.showMessageDialog(null, "Acceso no valido");
