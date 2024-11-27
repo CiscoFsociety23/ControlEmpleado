@@ -1,5 +1,7 @@
-package src.dao;
+package dao;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.Empleado;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,10 +12,48 @@ import java.nio.charset.StandardCharsets;
 
 public class UsuariosDao {
     
+    public Empleado obtenerEmpleado(String correo){
+        try {
+            
+            String urlApi = "https://dev.dedsec.cl/AsistenciaManager/Empleado/obtenerEmpleadoCorreo?correo=" + correo;
+            URL url = new URL(urlApi);
+            
+            // Crear la conexión HTTP
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type", "application/json");
+            
+            // Obtener la respuesta
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Leer la respuesta del servidor
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                
+                ObjectMapper objMap = new ObjectMapper();
+                Empleado empleado = objMap.readValue(response.toString(), Empleado.class);
+                
+                System.out.println("Empleado con rut: " + empleado.getRut());
+                
+                return empleado;
+            }
+            
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    
     public Boolean verificarCredenciales(String correo, String contrasena){
         try {
             
-            URL url = new URL("http://dedsec.cl:9043/AsistenciaManager/verificarAcceso");
+            URL url = new URL("https://dev.dedsec.cl/AsistenciaManager/verificarAcceso");
             
             // Crear la conexión HTTP
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

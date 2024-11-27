@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package src.vista;
+package vista;
 
-import src.dao.UsuariosDao;
+import dao.UsuariosDao;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,10 +34,10 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        labelLoginTitle = new javax.swing.JLabel();
+        labelUsuario = new javax.swing.JLabel();
         txtuser = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        labelContrasena = new javax.swing.JLabel();
         btnIniciar = new javax.swing.JButton();
         txtpass = new javax.swing.JPasswordField();
 
@@ -74,12 +74,12 @@ public class Login extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(153, 204, 255));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("LOGIN");
+        labelLoginTitle.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        labelLoginTitle.setText("LOGIN");
 
-        jLabel2.setText("USUARIO:");
+        labelUsuario.setText("USUARIO:");
 
-        jLabel3.setText("PASSWORD:");
+        labelContrasena.setText("PASSWORD:");
 
         btnIniciar.setText("INICIAR");
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
@@ -98,15 +98,15 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(116, 116, 116)
-                                .addComponent(jLabel1))
+                                .addComponent(labelLoginTitle))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(58, 58, 58)
                                 .addComponent(txtuser, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)))
+                                    .addComponent(labelContrasena)
+                                    .addComponent(labelUsuario)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(101, 101, 101)
                                 .addComponent(btnIniciar)))
@@ -120,13 +120,13 @@ public class Login extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(labelLoginTitle)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(labelUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtuser, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
-                .addComponent(jLabel3)
+                .addComponent(labelContrasena)
                 .addGap(18, 18, 18)
                 .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -162,9 +162,10 @@ public class Login extends javax.swing.JFrame {
         if(userService.verificarCredenciales(correo, contrasena)){
             
             JOptionPane.showMessageDialog(null, "Bienvenido"); 
-            Principal prin = new Principal();
-            prin.setVisible(true);
-            dispose();
+            userService.obtenerEmpleado(correo);
+            //Principal prin = new Principal();
+            //prin.setVisible(true);
+            //dispose();
             
         } else {
             JOptionPane.showMessageDialog(null, "Acceso no valido");
@@ -208,14 +209,14 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIniciar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JLabel labelContrasena;
+    private javax.swing.JLabel labelLoginTitle;
+    private javax.swing.JLabel labelUsuario;
     private javax.swing.JPasswordField txtpass;
     private javax.swing.JTextField txtuser;
     // End of variables declaration//GEN-END:variables
