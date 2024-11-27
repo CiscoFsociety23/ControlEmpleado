@@ -49,21 +49,36 @@ public class RegistroEntradaSalida extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnMarcarEntrada = new javax.swing.JButton();
+        btnMarcarSalida = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
         labelFecha = new javax.swing.JLabel();
         labelHora = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextFieldNombre = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jPasswordFieldPass = new javax.swing.JPasswordField();
-        jLabel6 = new javax.swing.JLabel();
-        comboBoxTurno = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        campoTextoResultado = new javax.swing.JTextArea();
+        btnMarcarEntrada1 = new javax.swing.JButton();
+        btnMarcarSalida1 = new javax.swing.JButton();
+        btnCerrar1 = new javax.swing.JButton();
+
+        btnMarcarEntrada.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btnMarcarEntrada.setText("Marcar Entrada");
+
+        btnMarcarSalida.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btnMarcarSalida.setText("Marcar Salida");
+
+        btnCerrar.setBackground(new java.awt.Color(51, 204, 255));
+        btnCerrar.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cerrar2.png"))); // NOI18N
+        btnCerrar.setText("CERRAR");
+        btnCerrar.setBorder(null);
+        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,10 +92,10 @@ public class RegistroEntradaSalida extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(247, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(118, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(95, 95, 95))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,37 +105,52 @@ public class RegistroEntradaSalida extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        labelFecha.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        labelFecha.setText("jLabel2");
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Fecha y Hora Actual", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 1, 12))); // NOI18N
 
-        labelHora.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
-        labelHora.setText("jLabel3");
+        labelFecha.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        labelFecha.setText("FECHA");
 
-        jLabel4.setText("USUARIO:");
+        labelHora.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        labelHora.setText("HORA");
 
-        jLabel5.setText("CONTRASEÑA:");
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(81, 81, 81)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelHora)
+                    .addComponent(labelFecha))
+                .addContainerGap(96, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelFecha)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(labelHora)
+                .addGap(29, 29, 29))
+        );
 
-        jButton1.setText("REGISTRAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnMarcarEntrada1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btnMarcarEntrada1.setText("Marcar Entrada");
+
+        btnMarcarSalida1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btnMarcarSalida1.setText("Marcar Salida");
+
+        btnCerrar1.setBackground(new java.awt.Color(51, 204, 255));
+        btnCerrar1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        btnCerrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cerrar2.png"))); // NOI18N
+        btnCerrar1.setText("CERRAR");
+        btnCerrar1.setBorder(null);
+        btnCerrar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCerrar1ActionPerformed(evt);
             }
         });
-
-        jButton2.setText("NUEVO");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setText("TURNO");
-
-        comboBoxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DIA", "NOCHE" }));
-
-        campoTextoResultado.setColumns(20);
-        campoTextoResultado.setRows(5);
-        jScrollPane1.setViewportView(campoTextoResultado);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -128,70 +158,34 @@ public class RegistroEntradaSalida extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(46, 46, 46)
-                .addComponent(jButton2)
-                .addGap(37, 37, 37))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(59, 59, 59)
-                            .addComponent(jLabel4)
-                            .addGap(51, 51, 51))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel5)
-                            .addGap(34, 34, 34)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(jLabel6)
-                        .addGap(61, 61, 61)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPasswordFieldPass, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                        .addComponent(jTextFieldNombre))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(labelFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelHora, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(207, 207, 207)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 206, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnCerrar1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnMarcarSalida1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMarcarEntrada1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(243, 243, 243))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelHora, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
-                .addComponent(labelFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPasswordFieldPass, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel5))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addComponent(comboBoxTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(85, 85, 85)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(btnMarcarEntrada1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(71, 71, 71))
+                .addComponent(btnMarcarSalida1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addComponent(btnCerrar1))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -210,52 +204,13 @@ public class RegistroEntradaSalida extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                  // Obtener el nombre del usuario desde el JTextField
-        String nombre = jTextFieldNombre.getText();
-        
-        // Obtener la contraseña desde el JPasswordField (convertir a String)
-        String contrasena = new String(jPasswordFieldPass.getPassword());
-        
-        // Obtener el tipo de turno seleccionado desde el JComboBox
-        String turnoSeleccionado = comboBoxTurno.getSelectedItem().toString();
-        
-        // Crear un objeto Date con la fecha y hora actuales
-        Date fechaActual = new Date();
-        
-        // Formatear la fecha
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaFormateada = formatoFecha.format(fechaActual);
-        
-        // Formatear la hora
-        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
-        String horaFormateada = formatoHora.format(fechaActual);
-        
-        // Construir el mensaje con todos los datos
-        String mensaje = "Nombre: " + nombre + "\n" +
-                         "Contraseña: " + contrasena + "\n" +
-                         "Turno: " + turnoSeleccionado + "\n" +
-                         "Fecha: " + fechaFormateada + "\n" +
-                         "Hora: " + horaFormateada;
-        
-        // Imprimir el mensaje en el JTextField de salida
-        campoTextoResultado.setText(mensaje);
-                          
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-          // Limpiar el campo de nombre
-        jTextFieldNombre.setText("");
-        
-        // Limpiar el campo de contraseña
-        jPasswordFieldPass.setText("");
-        
-        // Resetear el JComboBox a la primera opción (índice 0)
-        comboBoxTurno.setSelectedIndex(0);
-        
-        // Limpiar el JTextArea de resultados
-        campoTextoResultado.setText("");
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnCerrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrar1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCerrar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,19 +248,16 @@ public class RegistroEntradaSalida extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea campoTextoResultado;
-    private javax.swing.JComboBox<String> comboBoxTurno;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnCerrar1;
+    private javax.swing.JButton btnMarcarEntrada;
+    private javax.swing.JButton btnMarcarEntrada1;
+    private javax.swing.JButton btnMarcarSalida;
+    private javax.swing.JButton btnMarcarSalida1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordFieldPass;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel labelFecha;
     private javax.swing.JLabel labelHora;
     // End of variables declaration//GEN-END:variables

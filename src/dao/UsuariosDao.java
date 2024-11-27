@@ -27,7 +27,7 @@ public class UsuariosDao {
             
             // Obtener la respuesta
             int responseCode = connection.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
+            System.out.println("obtenerEmpleado(): Response Code " + responseCode);
 
             // Leer la respuesta del servidor
             try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
@@ -75,7 +75,7 @@ public class UsuariosDao {
             
             // Obtener la respuesta
             int responseCode = connection.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
+            System.out.println("verificarCredenciales(): Response Code " + responseCode);
 
             // Leer la respuesta del servidor
             try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
@@ -88,12 +88,12 @@ public class UsuariosDao {
 
                 // La respuesta es un valor booleano en forma de "true" o "false"
                 boolean result = Boolean.parseBoolean(response.toString());
-                System.out.println("verificarCredenciales(): Credenciales validas? " + result);
+                System.out.println("verificarCredenciales(): Credenciales validas " + result);
                 
                 return result;
             }
         } catch(IOException e) {
-            System.out.println("Ha ocurrido un error al verificar credenciales: " + e.getMessage());
+            System.out.println(e.getMessage());
             return false;
         }
     }
