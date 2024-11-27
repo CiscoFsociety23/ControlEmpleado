@@ -12,12 +12,14 @@ import java.nio.charset.StandardCharsets;
 
 public class UsuariosDao {
     
+    private String dominio = "https://dev.dedsec.cl";
+    
     public Empleado obtenerEmpleado(String correo){
         try {
             
             System.out.println("obtenerEmpleado(): Obteniendo datos del empleado " + correo);
             
-            String urlApi = "https://dev.dedsec.cl/AsistenciaManager/Empleado/obtenerEmpleadoCorreo?correo=" + correo;
+            String urlApi = this.dominio + "/AsistenciaManager/Empleado/obtenerEmpleadoCorreo?correo=" + correo;
             URL url = new URL(urlApi);
             
             // Crear la conexión HTTP
@@ -56,7 +58,7 @@ public class UsuariosDao {
             
             System.out.println("verificarCredenciales(): Verificando credeciales del usuario " + correo);
             
-            URL url = new URL("https://dev.dedsec.cl/AsistenciaManager/verificarAcceso");
+            URL url = new URL(this.dominio + "/AsistenciaManager/verificarAcceso");
             
             // Crear la conexión HTTP
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
