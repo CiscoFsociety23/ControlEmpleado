@@ -77,8 +77,6 @@ public class Principal extends javax.swing.JFrame {
         apellidoPaternoField = new javax.swing.JTextField();
         apellidoMaternoField = new javax.swing.JTextField();
         correoField = new javax.swing.JTextField();
-        labelContrasena = new javax.swing.JLabel();
-        contrasenaField = new javax.swing.JPasswordField();
         labelDireccion = new javax.swing.JLabel();
         direccionField = new javax.swing.JPasswordField();
         labelComuna = new javax.swing.JLabel();
@@ -284,8 +282,6 @@ public class Principal extends javax.swing.JFrame {
 
         labelCorreo.setText("Correo:");
 
-        labelContrasena.setText("Contraseña:");
-
         labelDireccion.setText("Direccion:");
 
         labelComuna.setText("Comuna:");
@@ -298,33 +294,36 @@ public class Principal extends javax.swing.JFrame {
             datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(datosPersonalesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datosPersonalesLayout.createSequentialGroup()
-                            .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(labelCorreo)
-                                .addComponent(labelContrasena))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(datosPersonalesLayout.createSequentialGroup()
+                        .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datosPersonalesLayout.createSequentialGroup()
+                                .addGap(135, 135, 135)
+                                .addComponent(direccionField))
                             .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(correoField, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                                .addComponent(contrasenaField)
-                                .addComponent(direccionField, javax.swing.GroupLayout.Alignment.TRAILING)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datosPersonalesLayout.createSequentialGroup()
-                            .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(labelComuna, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(labelRut, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(labelNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(labelApellidoPaterno, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(labelApellidoMaterno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(33, 33, 33)
-                            .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(rutField)
-                                .addComponent(nombreField)
-                                .addComponent(apellidoPaternoField)
-                                .addComponent(apellidoMaternoField)
-                                .addComponent(listaComuna, 0, 247, Short.MAX_VALUE))))
-                    .addComponent(labelDireccion))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datosPersonalesLayout.createSequentialGroup()
+                                    .addComponent(labelCorreo)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                                    .addComponent(correoField, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datosPersonalesLayout.createSequentialGroup()
+                                    .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(labelRut, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(labelNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labelApellidoPaterno, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(labelApellidoMaterno, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addGap(33, 33, 33)
+                                    .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(rutField, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                                        .addComponent(nombreField)
+                                        .addComponent(apellidoPaternoField)
+                                        .addComponent(apellidoMaternoField))))
+                            .addComponent(labelDireccion))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(datosPersonalesLayout.createSequentialGroup()
+                        .addComponent(labelComuna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(83, 83, 83)
+                        .addComponent(listaComuna, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         datosPersonalesLayout.setVerticalGroup(
             datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,17 +350,13 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(labelCorreo))
                 .addGap(18, 18, 18)
                 .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelContrasena)
-                    .addComponent(contrasenaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelDireccion)
                     .addComponent(direccionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(listaComuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelComuna))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         datosLaborales.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos Laborales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 1, 12))); // NOI18N
@@ -461,7 +456,7 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(btnModificarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(datosPersonales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 355, Short.MAX_VALUE))
+                .addGap(0, 398, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -655,7 +650,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnModificarUsuario;
     private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnTurnos;
-    private javax.swing.JPasswordField contrasenaField;
     private javax.swing.JTextField correoField;
     private javax.swing.JPanel datosLaborales;
     private javax.swing.JPanel datosPersonales;
@@ -676,7 +670,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel labelApellidoMaterno;
     private javax.swing.JLabel labelApellidoPaterno;
     private javax.swing.JLabel labelComuna;
-    private javax.swing.JLabel labelContrasena;
     private javax.swing.JLabel labelCorreo;
     private javax.swing.JLabel labelDepartamento;
     private javax.swing.JLabel labelDireccion;

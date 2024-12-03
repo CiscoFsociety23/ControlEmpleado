@@ -438,7 +438,7 @@
                                   </Group>
                                   <Component id="datosPersonales" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="355" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="398" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -461,41 +461,46 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="labelCorreo" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="labelContrasena" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <EmptySpace min="135" pref="135" max="-2" attributes="0"/>
+                                                  <Component id="direccionField" max="32767" attributes="0"/>
                                               </Group>
-                                              <EmptySpace max="32767" attributes="0"/>
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="correoField" pref="247" max="32767" attributes="0"/>
-                                                  <Component id="contrasenaField" max="32767" attributes="0"/>
-                                                  <Component id="direccionField" alignment="1" max="32767" attributes="0"/>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Component id="labelCorreo" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace pref="93" max="32767" attributes="0"/>
+                                                      <Component id="correoField" min="-2" pref="247" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Group type="103" groupAlignment="1" attributes="0">
+                                                          <Component id="labelRut" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="labelNombre" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
+                                                          <Component id="labelApellidoPaterno" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="labelApellidoMaterno" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="rutField" pref="247" max="32767" attributes="0"/>
+                                                          <Component id="nombreField" max="32767" attributes="0"/>
+                                                          <Component id="apellidoPaternoField" max="32767" attributes="0"/>
+                                                          <Component id="apellidoMaternoField" max="32767" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
                                               </Group>
+                                              <Component id="labelDireccion" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                  <Component id="labelComuna" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="labelRut" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="labelNombre" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
-                                                  <Component id="labelApellidoPaterno" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="labelApellidoMaterno" alignment="0" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="rutField" max="32767" attributes="0"/>
-                                                  <Component id="nombreField" max="32767" attributes="0"/>
-                                                  <Component id="apellidoPaternoField" max="32767" attributes="0"/>
-                                                  <Component id="apellidoMaternoField" max="32767" attributes="0"/>
-                                                  <Component id="listaComuna" pref="247" max="32767" attributes="0"/>
-                                              </Group>
-                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="labelDireccion" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="labelComuna" max="32767" attributes="0"/>
+                                          <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                                          <Component id="listaComuna" min="-2" pref="247" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -529,11 +534,6 @@
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="labelContrasena" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="contrasenaField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="labelDireccion" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="direccionField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -542,7 +542,7 @@
                                       <Component id="listaComuna" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="labelComuna" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="8" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -582,13 +582,6 @@
                         <Component class="javax.swing.JTextField" name="apellidoMaternoField">
                         </Component>
                         <Component class="javax.swing.JTextField" name="correoField">
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="labelContrasena">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Contrase&#xf1;a:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JPasswordField" name="contrasenaField">
                         </Component>
                         <Component class="javax.swing.JLabel" name="labelDireccion">
                           <Properties>
