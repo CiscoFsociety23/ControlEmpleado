@@ -361,6 +361,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Marcar Salida"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMarcarSalidaActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnMarcarEntrada">
                   <Properties>
@@ -369,6 +372,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Marcar Entrada"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMarcarEntradaActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -463,37 +469,32 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Group type="102" alignment="1" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace min="135" pref="135" max="-2" attributes="0"/>
-                                                  <Component id="direccionField" max="32767" attributes="0"/>
-                                              </Group>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Group type="102" alignment="1" attributes="0">
-                                                      <Component id="labelCorreo" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace pref="93" max="32767" attributes="0"/>
-                                                      <Component id="correoField" min="-2" pref="247" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" alignment="1" attributes="0">
-                                                      <Group type="103" groupAlignment="1" attributes="0">
-                                                          <Component id="labelRut" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="labelNombre" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
-                                                          <Component id="labelApellidoPaterno" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="labelApellidoMaterno" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                          <Component id="rutField" pref="247" max="32767" attributes="0"/>
-                                                          <Component id="nombreField" max="32767" attributes="0"/>
-                                                          <Component id="apellidoPaternoField" max="32767" attributes="0"/>
-                                                          <Component id="apellidoMaternoField" max="32767" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
-                                              </Group>
-                                              <Component id="labelDireccion" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="135" pref="135" max="-2" attributes="0"/>
+                                          <Component id="direccionField" max="32767" attributes="0"/>
                                       </Group>
+                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="labelCorreo" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace pref="93" max="32767" attributes="0"/>
+                                              <Component id="correoField" min="-2" pref="247" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="labelRut" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="labelNombre" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
+                                                  <Component id="labelApellidoPaterno" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="labelApellidoMaterno" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="rutField" pref="247" max="32767" attributes="0"/>
+                                                  <Component id="nombreField" max="32767" attributes="0"/>
+                                                  <Component id="apellidoPaternoField" max="32767" attributes="0"/>
+                                                  <Component id="apellidoMaternoField" max="32767" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                      <Component id="labelDireccion" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="1" attributes="0">
                                           <Component id="labelComuna" max="32767" attributes="0"/>
                                           <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>

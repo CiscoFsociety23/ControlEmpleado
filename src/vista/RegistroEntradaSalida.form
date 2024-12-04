@@ -227,6 +227,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Marcar Entrada"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMarcarEntrada1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnMarcarSalida1">
           <Properties>
@@ -235,6 +238,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Marcar Salida"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMarcarSalida1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnCerrar1">
           <Properties>

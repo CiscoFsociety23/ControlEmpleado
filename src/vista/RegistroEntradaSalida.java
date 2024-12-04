@@ -4,9 +4,15 @@
  */
 package vista;
 
+import dao.AsistenciaDao;
+import dto.Empleado;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 public class RegistroEntradaSalida extends javax.swing.JFrame {
+    
+    AsistenciaDao asistenciaService = new AsistenciaDao();
+    public Empleado empleado = new Empleado();
 
     /**
      * Creates new form RegistroEntradaSalida
@@ -136,9 +142,19 @@ public class RegistroEntradaSalida extends javax.swing.JFrame {
 
         btnMarcarEntrada1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         btnMarcarEntrada1.setText("Marcar Entrada");
+        btnMarcarEntrada1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarcarEntrada1ActionPerformed(evt);
+            }
+        });
 
         btnMarcarSalida1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         btnMarcarSalida1.setText("Marcar Salida");
+        btnMarcarSalida1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarcarSalida1ActionPerformed(evt);
+            }
+        });
 
         btnCerrar1.setBackground(new java.awt.Color(51, 204, 255));
         btnCerrar1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
@@ -211,6 +227,26 @@ public class RegistroEntradaSalida extends javax.swing.JFrame {
     private void btnCerrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrar1ActionPerformed
         dispose();
     }//GEN-LAST:event_btnCerrar1ActionPerformed
+
+    private void btnMarcarEntrada1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcarEntrada1ActionPerformed
+        // TODO add your handling code here:
+        Boolean marca = asistenciaService.registarMarcaje(this.empleado, "Entrada");
+        if(marca){
+            JOptionPane.showMessageDialog(null, "Ha registrado la Entrada con exito");
+        } else {
+            JOptionPane.showMessageDialog(null, "No es posible registrar la marca en este momento");
+        }
+    }//GEN-LAST:event_btnMarcarEntrada1ActionPerformed
+
+    private void btnMarcarSalida1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcarSalida1ActionPerformed
+        // TODO add your handling code here:
+        Boolean marca = asistenciaService.registarMarcaje(this.empleado, "Salida");
+        if(marca){
+            JOptionPane.showMessageDialog(null, "Ha registrado la Entrada con exito");
+        } else {
+            JOptionPane.showMessageDialog(null, "No es posible registrar la marca en este momento");
+        }
+    }//GEN-LAST:event_btnMarcarSalida1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
     UsuariosDao userService = new UsuariosDao();
+    public Empleado empleado = new Empleado();
     
     public Login() {
         initComponents();
@@ -148,15 +149,17 @@ public class Login extends javax.swing.JFrame {
         
         if(userService.verificarAcceso(rut)){
             
-            Empleado empleado = userService.obtenerEmpleadoRut(rut);
-            JOptionPane.showMessageDialog(null, "Bienvenido " + empleado.getNombre()); 
+            Empleado getEmpleado = userService.obtenerEmpleadoRut(rut);
+            JOptionPane.showMessageDialog(null, "Bienvenido " + getEmpleado.getNombre()); 
             
-            if(empleado.getRol().equals("ADMIN")){
+            if(getEmpleado.getRol().equals("ADMIN")){
                 Principal prin = new Principal();
+                prin.empleado = getEmpleado;
                 prin.setVisible(true);
                 dispose();
             } else {
                 RegistroEntradaSalida marcaje = new RegistroEntradaSalida();
+                marcaje.empleado = getEmpleado;
                 marcaje.setVisible(true);
                 dispose();
             }         
