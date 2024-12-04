@@ -5,11 +5,14 @@
 package vista;
 
 import dao.AsistenciaDao;
+import dao.ComunaDao;
 import dao.UsuariosDao;
+import dto.Comuna;
 import dto.Empleado;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,6 +24,7 @@ public class Principal extends javax.swing.JFrame {
     
     private AsistenciaDao asistenciaService = new AsistenciaDao();
     private UsuariosDao usuarioService = new UsuariosDao();
+    private ComunaDao comunaService = new ComunaDao();
     public Empleado empleado = new Empleado();
 
     /**
@@ -30,6 +34,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         mostrarFechaYHora();
         llenarTabla();
+        llenarComboBoxComunas();
         this.setLocationRelativeTo(null);
     }
 
@@ -72,7 +77,7 @@ public class Principal extends javax.swing.JFrame {
                         empleado.getApellidoPaterno(),
                         empleado.getApellidoMaterno(),
                         empleado.getCorreo(),
-                        empleado.getRol(), // Asumiendo que es "perfil"
+                        empleado.getRol(),
                         empleado.getContrato(),
                         empleado.getTurno(),
                         empleado.getDepartamento(),
@@ -84,6 +89,30 @@ public class Principal extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.out.println("llenarTabla(): Error al llenar la tabla: " + e.getMessage());
+        }
+    }
+    
+    public void llenarComboBoxComunas() {
+        try {
+            // Llamar al método para obtener la lista de comunas
+            List<Comuna> comunas = this.comunaService.obtenerComunas();
+
+            if (comunas != null) {
+                // Crear un modelo para el JComboBox
+                DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+
+                // Agregar las comunas al modelo
+                for (Comuna comuna : comunas) {
+                    comboBoxModel.addElement(comuna.getNombreComuna());
+                }
+
+                // Asignar el modelo al JComboBox
+                listaComuna.setModel(comboBoxModel);
+            } else {
+                System.out.println("llenarComboBoxComunas(): No se pudieron obtener las comunas.");
+            }
+        } catch (Exception e) {
+            System.out.println("llenarComboBoxComunas(): Error al llenar el JComboBox: " + e.getMessage());
         }
     }
     
