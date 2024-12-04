@@ -10,12 +10,15 @@ import dao.TurnoDao;
 import dao.UsuariosDao;
 import dto.Comuna;
 import dto.Empleado;
+import dto.EmpleadoCreationReq;
 import dto.Turno;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -44,6 +47,49 @@ public class Principal extends javax.swing.JFrame {
         llenarComboBoxTurnos();
         llenarComboBoxDepartamentos();
         llenarComboBoxActivo();
+        
+        empleadosTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // Evitar ejecutar dos veces por cambios en selección
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = empleadosTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Extraer los valores de la fila seleccionada
+                        String rut = empleadosTable.getValueAt(selectedRow, 0).toString();
+                        String nombre = empleadosTable.getValueAt(selectedRow, 1).toString();
+                        String apellidoPaterno = empleadosTable.getValueAt(selectedRow, 2).toString();
+                        String apellidoMaterno = empleadosTable.getValueAt(selectedRow, 3).toString();
+                        String correo = empleadosTable.getValueAt(selectedRow, 4).toString();
+                        boolean activo = Boolean.parseBoolean(empleadosTable.getValueAt(selectedRow, 5).toString());
+                        String rolSistema = empleadosTable.getValueAt(selectedRow, 6).toString();
+                        String tipoContrato = empleadosTable.getValueAt(selectedRow, 7).toString();
+                        String turno = empleadosTable.getValueAt(selectedRow, 8).toString();
+                        String departamento = empleadosTable.getValueAt(selectedRow, 9).toString();
+                        String direccionCompleta = empleadosTable.getValueAt(selectedRow, 10).toString();
+
+                        // Separar comuna y dirección
+                        String[] direccionPartes = direccionCompleta.split(",");
+                        String direccion = direccionPartes[0].trim();
+                        String comuna = direccionPartes[1].split(";")[0].trim();
+
+                        // Asignar valores a los campos
+                        rutField.setText(rut);
+                        nombreField.setText(nombre);
+                        apellidoPaternoField.setText(apellidoPaterno);
+                        apellidoMaternoField.setText(apellidoMaterno);
+                        correoField.setText(correo);
+                        direccionField.setText(direccion);
+                        listaComuna.setSelectedItem(comuna);
+                        listaTipoContrato.setSelectedItem(tipoContrato);
+                        listaRolSistema.setSelectedItem(rolSistema);
+                        listaDepartamento.setSelectedItem(departamento);
+                        listaTurno.setSelectedItem(turno);
+                        listaActivo.setSelectedItem(activo ? "true" : "false");
+                    }
+                }
+            }
+        });
         
         this.setLocationRelativeTo(null);
     }
@@ -255,9 +301,9 @@ public class Principal extends javax.swing.JFrame {
         apellidoMaternoField = new javax.swing.JTextField();
         correoField = new javax.swing.JTextField();
         labelDireccion = new javax.swing.JLabel();
-        direccionField = new javax.swing.JPasswordField();
         labelComuna = new javax.swing.JLabel();
         listaComuna = new javax.swing.JComboBox<>();
+        direccionField = new javax.swing.JTextField();
         datosLaborales = new javax.swing.JPanel();
         labelRolSistema = new javax.swing.JLabel();
         labelTipoContrato = new javax.swing.JLabel();
@@ -487,9 +533,6 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(datosPersonalesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(datosPersonalesLayout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(direccionField))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, datosPersonalesLayout.createSequentialGroup()
                             .addComponent(labelCorreo)
@@ -507,11 +550,17 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(nombreField)
                                 .addComponent(apellidoPaternoField)
                                 .addComponent(apellidoMaternoField))))
-                    .addComponent(labelDireccion, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(datosPersonalesLayout.createSequentialGroup()
-                        .addComponent(labelComuna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(83, 83, 83)
-                        .addComponent(listaComuna, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(datosPersonalesLayout.createSequentialGroup()
+                                .addComponent(labelComuna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(83, 83, 83))
+                            .addGroup(datosPersonalesLayout.createSequentialGroup()
+                                .addComponent(labelDireccion)
+                                .addGap(77, 77, 77)))
+                        .addGroup(datosPersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(listaComuna, 0, 247, Short.MAX_VALUE)
+                            .addComponent(direccionField))))
                 .addContainerGap())
         );
         datosPersonalesLayout.setVerticalGroup(
@@ -619,9 +668,19 @@ public class Principal extends javax.swing.JFrame {
 
         btnCrearUsuario.setText("Ingresar");
         btnCrearUsuario.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearUsuarioActionPerformed(evt);
+            }
+        });
 
         btnModificarUsuario.setText("Modificar");
         btnModificarUsuario.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnModificarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarUsuarioActionPerformed(evt);
+            }
+        });
 
         empleadosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -857,7 +916,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         Boolean marca = this.asistenciaService.registarMarcaje(this.empleado, "Salida");
         if(marca){
-            JOptionPane.showMessageDialog(null, "Ha registrado la Entrada con exito");
+            JOptionPane.showMessageDialog(null, "Ha registrado la Salida con exito");
         } else {
             JOptionPane.showMessageDialog(null, "No es posible registrar la marca en este momento");
         }
@@ -873,6 +932,77 @@ public class Principal extends javax.swing.JFrame {
         llenarComboBoxActivo();
     }//GEN-LAST:event_btnRefrescarActionPerformed
 
+    private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
+        // TODO add your handling code here:
+        String rut = rutField.getText();
+        String nombre = nombreField.getText();
+        String apellidoPaterno = apellidoPaternoField.getText();
+        String apellidoMaterno = apellidoMaternoField.getText();
+        String correo = correoField.getText();
+        Boolean activo = Boolean.parseBoolean(listaActivo.getSelectedItem().toString());
+        String contrato = listaTipoContrato.getSelectedItem().toString();
+        String rol = listaRolSistema.getSelectedItem().toString();
+        String departamento = listaDepartamento.getSelectedItem().toString();
+        String turno = listaTurno.getSelectedItem().toString();
+        String direccion = direccionField.getText();
+        String comuna = listaComuna.getSelectedItem().toString();
+        
+        if(rut.isEmpty() || nombre.isEmpty() || apellidoPaterno.isEmpty() || apellidoMaterno.isEmpty() || correo.isEmpty() || direccion.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No es posible registrar el usuario, debe completar todos los campos");
+        } else {
+            EmpleadoCreationReq empleado = new EmpleadoCreationReq(rut, nombre, apellidoPaterno, apellidoMaterno, correo, activo, contrato, rol, departamento, turno, direccion, comuna);
+            Empleado create = this.usuarioService.crearEmpleado(empleado);
+            if(create.getRut().equals(rut)){
+                JOptionPane.showMessageDialog(null, "El empleado fue creado con exito");
+                llenarTabla();
+                rutField.setText("");
+                nombreField.setText("");
+                apellidoPaternoField.setText("");
+                apellidoMaternoField.setText("");
+                correoField.setText("");
+                direccionField.setText("");
+            } else {
+                JOptionPane.showMessageDialog(null, "No es posible registrar el usuario, verifique que no se encuentre creado (rut, correo)");
+            }
+        }
+    }//GEN-LAST:event_btnCrearUsuarioActionPerformed
+
+    private void btnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuarioActionPerformed
+        // TODO add your handling code here:
+        String rut = rutField.getText();
+        String nombre = nombreField.getText();
+        String apellidoPaterno = apellidoPaternoField.getText();
+        String apellidoMaterno = apellidoMaternoField.getText();
+        String correo = correoField.getText();
+        Boolean activo = Boolean.parseBoolean(listaActivo.getSelectedItem().toString());
+        String contrato = listaTipoContrato.getSelectedItem().toString();
+        String rol = listaRolSistema.getSelectedItem().toString();
+        String departamento = listaDepartamento.getSelectedItem().toString();
+        String turno = listaTurno.getSelectedItem().toString();
+        String direccion = direccionField.getText();
+        String comuna = listaComuna.getSelectedItem().toString();
+        
+        if(rut.isEmpty() || nombre.isEmpty() || apellidoPaterno.isEmpty() || apellidoMaterno.isEmpty() || correo.isEmpty() || direccion.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No es posible actualizar el usuario, debe completar todos los campos");
+        } else {
+            EmpleadoCreationReq empleado = new EmpleadoCreationReq(rut, nombre, apellidoPaterno, apellidoMaterno, correo, activo, contrato, rol, departamento, turno, direccion, comuna);
+            Empleado update = this.usuarioService.actualizarEmpleado(empleado);
+            if(update.getRut().equals(rut)){
+                JOptionPane.showMessageDialog(null, "El empleado fue actualizado con exito");
+                llenarTabla();
+                rutField.setText("");
+                nombreField.setText("");
+                apellidoPaternoField.setText("");
+                apellidoMaternoField.setText("");
+                correoField.setText("");
+                direccionField.setText("");
+            } else {
+                JOptionPane.showMessageDialog(null, "No es posible actualizar el usuario, verifique que no se encuentre creado (rut, correo)");
+            }
+        }
+    }//GEN-LAST:event_btnModificarUsuarioActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -924,7 +1054,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField correoField;
     private javax.swing.JPanel datosLaborales;
     private javax.swing.JPanel datosPersonales;
-    private javax.swing.JPasswordField direccionField;
+    private javax.swing.JTextField direccionField;
     private javax.swing.JTable empleadosTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
