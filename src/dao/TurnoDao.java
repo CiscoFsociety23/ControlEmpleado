@@ -6,8 +6,7 @@ package dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.Comuna;
-import dto.Empleado;
+import dto.Turno;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,16 +18,16 @@ import java.util.List;
  *
  * @author sysadmin
  */
-public class ComunaDao {
+public class TurnoDao {
     
     private String dominio = "https://dev.dedsec.cl";
     
-    public List<Comuna> obtenerComunas(){
+    public List<Turno> obtenerTurnos(){
         try {
             
-            System.out.println("registarMarcaje(): Obteniendo registro de comunas ");
+            System.out.println("obtenerTurnos(): Obteniendo registro de turnos");
             
-            URL url = new URL(this.dominio + "/AsistenciaManager/Comuna/obtenerComunas");
+            URL url = new URL(this.dominio + "/AsistenciaManager/Turno/obtenerTurnos");
             
             // Crear la conexión HTTP
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -38,7 +37,7 @@ public class ComunaDao {
             
             // Obtener la respuesta
             int responseCode = connection.getResponseCode();
-            System.out.println("registarMarcaje(): Response Code " + responseCode);
+            System.out.println("obtenerTurnos(): Response Code " + responseCode);
 
             // Leer la respuesta del servidor
             try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
@@ -50,10 +49,10 @@ public class ComunaDao {
                 }
 
                 ObjectMapper objectMapper = new ObjectMapper();
-                List<Comuna> comunas = objectMapper.readValue(response.toString(), new TypeReference<List<Comuna>>() {});
+                List<Turno> turnos = objectMapper.readValue(response.toString(), new TypeReference<List<Turno>>() {});
                 
-                System.out.println("obtenerComunas(): Comunas obtenidas con exito");
-                return comunas;
+                System.out.println("obtenerTurnos(): Turnos obtenidos con exito");
+                return turnos;
             }
         } catch(IOException e) {
             System.out.println(e.getMessage());

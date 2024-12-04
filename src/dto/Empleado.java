@@ -18,6 +18,7 @@ public class Empleado {
     private String apellidoMaterno;
     private String apellidoPaterno;
     private String correo;
+    private Boolean activo;
     private String contrato;
     private String rol;
     private String departamento;
@@ -72,6 +73,14 @@ public class Empleado {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+    
+    public Boolean getActivo(){
+        return activo;
+    }
+    
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     public String getContrato() {

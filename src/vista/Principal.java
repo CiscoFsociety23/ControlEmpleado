@@ -6,9 +6,11 @@ package vista;
 
 import dao.AsistenciaDao;
 import dao.ComunaDao;
+import dao.TurnoDao;
 import dao.UsuariosDao;
 import dto.Comuna;
 import dto.Empleado;
+import dto.Turno;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +27,7 @@ public class Principal extends javax.swing.JFrame {
     private AsistenciaDao asistenciaService = new AsistenciaDao();
     private UsuariosDao usuarioService = new UsuariosDao();
     private ComunaDao comunaService = new ComunaDao();
+    private TurnoDao turnoService = new TurnoDao();
     public Empleado empleado = new Empleado();
 
     /**
@@ -32,9 +35,16 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        
         mostrarFechaYHora();
         llenarTabla();
         llenarComboBoxComunas();
+        llenarComboBoxRoles();
+        llenarComboBoxContrato();
+        llenarComboBoxTurnos();
+        llenarComboBoxDepartamentos();
+        llenarComboBoxActivo();
+        
         this.setLocationRelativeTo(null);
     }
 
@@ -77,6 +87,7 @@ public class Principal extends javax.swing.JFrame {
                         empleado.getApellidoPaterno(),
                         empleado.getApellidoMaterno(),
                         empleado.getCorreo(),
+                        empleado.getActivo().toString(),
                         empleado.getRol(),
                         empleado.getContrato(),
                         empleado.getTurno(),
@@ -113,6 +124,96 @@ public class Principal extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.out.println("llenarComboBoxComunas(): Error al llenar el JComboBox: " + e.getMessage());
+        }
+    }
+    
+    public void llenarComboBoxRoles() {
+        try {
+            // Crear un modelo para el JComboBox con valores estáticos
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+
+            // Agregar opciones "ADMIN" y "USER"
+            comboBoxModel.addElement("ADMIN");
+            comboBoxModel.addElement("USER");
+
+            // Asignar el modelo al JComboBox
+            listaRolSistema.setModel(comboBoxModel);
+        } catch (Exception e) {
+            System.out.println("Error al llenar el JComboBox de roles: " + e.getMessage());
+        }
+    }
+    
+    public void llenarComboBoxContrato() {
+        try {
+            // Crear un modelo para el JComboBox con valores estáticos
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+
+            // Agregar opciones "Plazo Fijo" y "Plazo Indefinido"
+            comboBoxModel.addElement("Plazo Fijo");
+            comboBoxModel.addElement("Plazo Indefinido");
+
+            // Asignar el modelo al JComboBox
+            listaTipoContrato.setModel(comboBoxModel);
+        } catch (Exception e) {
+            System.out.println("Error al llenar el JComboBox de roles: " + e.getMessage());
+        }
+    }
+    
+    public void llenarComboBoxTurnos() {
+        try {
+            // Llamar al método para obtener la lista de comunas
+            List<Turno> turnos = this.turnoService.obtenerTurnos();
+
+            if (turnos != null) {
+                // Crear un modelo para el JComboBox
+                DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+
+                // Agregar las comunas al modelo
+                for (Turno turno : turnos) {
+                    comboBoxModel.addElement(turno.getTurno());
+                }
+
+                // Asignar el modelo al JComboBox
+                listaTurno.setModel(comboBoxModel);
+            } else {
+                System.out.println("llenarComboBoxTurnos(): No se pudieron obtener las comunas.");
+            }
+        } catch (Exception e) {
+            System.out.println("llenarComboBoxTurnos(): Error al llenar el JComboBox: " + e.getMessage());
+        }
+    }
+    
+    public void llenarComboBoxDepartamentos() {
+        try {
+            // Crear un modelo para el JComboBox con valores estáticos
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+
+            // Agregar opciones de Departamentos
+            comboBoxModel.addElement("Tecnologia");
+            comboBoxModel.addElement("Recursos Humanos");
+            comboBoxModel.addElement("Ventas");
+            comboBoxModel.addElement("Finanzas");
+
+            // Asignar el modelo al JComboBox
+            listaDepartamento.setModel(comboBoxModel);
+        } catch (Exception e) {
+            System.out.println("Error al llenar el JComboBox de roles: " + e.getMessage());
+        }
+    }
+    
+    public void llenarComboBoxActivo() {
+        try {
+            // Crear un modelo para el JComboBox con valores estáticos
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+
+            // Agregar opciones de Activo
+            comboBoxModel.addElement("true");
+            comboBoxModel.addElement("false");
+
+            // Asignar el modelo al JComboBox
+            listaActivo.setModel(comboBoxModel);
+        } catch (Exception e) {
+            System.out.println("Error al llenar el JComboBox de roles: " + e.getMessage());
         }
     }
     
@@ -166,11 +267,13 @@ public class Principal extends javax.swing.JFrame {
         listaRolSistema = new javax.swing.JComboBox<>();
         labelDepartamento = new javax.swing.JLabel();
         listaDepartamento = new javax.swing.JComboBox<>();
+        labelActivo = new javax.swing.JLabel();
+        listaActivo = new javax.swing.JComboBox<>();
         btnCrearUsuario = new javax.swing.JButton();
         btnModificarUsuario = new javax.swing.JButton();
-        btnEliminarUsuario = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         empleadosTable = new javax.swing.JTable();
+        btnRefrescar = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -333,27 +436,26 @@ public class Principal extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(412, 412, 412)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(296, 296, 296)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(330, 330, 330)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnMarcarSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnMarcarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(335, Short.MAX_VALUE))
+                            .addComponent(btnMarcarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)))
+                .addContainerGap(463, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(85, 85, 85)
+                .addGap(107, 107, 107)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(129, 129, 129)
                 .addComponent(btnMarcarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnMarcarSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addContainerGap(174, Short.MAX_VALUE))
         );
 
         panelPrincipal.addTab("Control Entrada/Salida", jPanel4);
@@ -464,23 +566,29 @@ public class Principal extends javax.swing.JFrame {
 
         listaDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        labelActivo.setText("Activo:");
+
+        listaActivo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout datosLaboralesLayout = new javax.swing.GroupLayout(datosLaborales);
         datosLaborales.setLayout(datosLaboralesLayout);
         datosLaboralesLayout.setHorizontalGroup(
             datosLaboralesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(datosLaboralesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(datosLaboralesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(labelDepartamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelRolSistema, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelTipoContrato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelTurno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(datosLaboralesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelActivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelDepartamento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelRolSistema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelTipoContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelTurno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(45, 45, 45)
                 .addGroup(datosLaboralesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(listaTipoContrato, 0, 187, Short.MAX_VALUE)
                     .addComponent(listaRolSistema, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(listaTurno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(listaDepartamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(listaDepartamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(listaActivo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         datosLaboralesLayout.setVerticalGroup(
@@ -502,7 +610,11 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(datosLaboralesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelDepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(listaDepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(datosLaboralesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(listaActivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnCrearUsuario.setText("Ingresar");
@@ -511,25 +623,22 @@ public class Principal extends javax.swing.JFrame {
         btnModificarUsuario.setText("Modificar");
         btnModificarUsuario.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        btnEliminarUsuario.setText("Eliminar");
-        btnEliminarUsuario.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
         empleadosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellido Paterno", "Apellido Materno", "RUT", "Correo", "Perfil", "Contrato", "Turno", "Departamento", "Direccion"
+                "RUT", "Nombre", "Apellido Paterno", "Apellido Materno", "Correo", "Activo", "Perfil", "Contrato", "Turno", "Departamento", "Direccion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -542,6 +651,14 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(empleadosTable);
 
+        btnRefrescar.setText("Refrescar");
+        btnRefrescar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnRefrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefrescarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -552,14 +669,15 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(datosPersonales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(datosLaborales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel11Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(btnRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnCrearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnModificarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(datosLaborales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 106, Short.MAX_VALUE))
+                                .addComponent(btnModificarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 350, Short.MAX_VALUE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane2)))
@@ -571,11 +689,11 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(datosLaborales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(36, 36, 36)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCrearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnModificarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(datosPersonales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -599,7 +717,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 880, Short.MAX_VALUE)
+            .addGap(0, 1124, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -627,7 +745,7 @@ public class Principal extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -655,7 +773,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(168, 168, 168))
+                .addGap(283, 283, 283))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -671,11 +789,11 @@ public class Principal extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelPrincipal))
-                .addGap(64, 64, 64))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -695,7 +813,7 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1115, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -745,6 +863,16 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnMarcarSalidaActionPerformed
 
+    private void btnRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrescarActionPerformed
+        llenarTabla();
+        llenarComboBoxComunas();
+        llenarComboBoxRoles();
+        llenarComboBoxContrato();
+        llenarComboBoxTurnos();
+        llenarComboBoxDepartamentos();
+        llenarComboBoxActivo();
+    }//GEN-LAST:event_btnRefrescarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -785,12 +913,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField apellidoPaternoField;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnCrearUsuario;
-    private javax.swing.JButton btnEliminarUsuario;
     private javax.swing.JButton btnEntradaSalida;
     private javax.swing.JButton btnGestionUsuarios;
     private javax.swing.JButton btnMarcarEntrada;
     private javax.swing.JButton btnMarcarSalida;
     private javax.swing.JButton btnModificarUsuario;
+    private javax.swing.JButton btnRefrescar;
     private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnTurnos;
     private javax.swing.JTextField correoField;
@@ -812,6 +940,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel labelActivo;
     private javax.swing.JLabel labelApellidoMaterno;
     private javax.swing.JLabel labelApellidoPaterno;
     private javax.swing.JLabel labelComuna;
@@ -825,6 +954,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel labelRut;
     private javax.swing.JLabel labelTipoContrato;
     private javax.swing.JLabel labelTurno;
+    private javax.swing.JComboBox<String> listaActivo;
     private javax.swing.JComboBox<String> listaComuna;
     private javax.swing.JComboBox<String> listaDepartamento;
     private javax.swing.JComboBox<String> listaRolSistema;

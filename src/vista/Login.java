@@ -146,10 +146,10 @@ public class Login extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         
         String rut = inputRut.getText();
+        Empleado getEmpleado = userService.obtenerEmpleadoRut(rut);
         
-        if(userService.verificarAcceso(rut)){
+        if(userService.verificarAcceso(rut) && getEmpleado.getActivo()){
             
-            Empleado getEmpleado = userService.obtenerEmpleadoRut(rut);
             JOptionPane.showMessageDialog(null, "Bienvenido " + getEmpleado.getNombre()); 
             
             if(getEmpleado.getRol().equals("ADMIN")){
