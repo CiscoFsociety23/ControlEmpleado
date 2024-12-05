@@ -9,6 +9,7 @@ import dto.Empleado;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 public class RegistroEntradaSalida extends javax.swing.JFrame {
     
     AsistenciaDao asistenciaService = new AsistenciaDao();
@@ -19,28 +20,31 @@ public class RegistroEntradaSalida extends javax.swing.JFrame {
      */
     public RegistroEntradaSalida() {
         initComponents();
-        mostrarFechaYHora();
+        iniciarActualizacionDeHora();
         this.setLocationRelativeTo(null);
     }
     
-     // Método para mostrar la fecha y la hora en los respectivos JLabel
-    private void mostrarFechaYHora() {
-        // Crear un objeto Date con la fecha y hora actuales
-        Date fechaActual = new Date();
-        
-        // Formatear la fecha
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaFormateada = formatoFecha.format(fechaActual);
-        
-        // Formatear la hora
-        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
-        String horaFormateada = formatoHora.format(fechaActual);
-        
-        // Mostrar la fecha en el JLabel de la fecha
-        labelFecha.setText(fechaFormateada);
-        
-        // Mostrar la hora en el JLabel de la hora
-        labelHora.setText(horaFormateada);
+    private void iniciarActualizacionDeHora() {
+        // Crear un Timer que actualice la hora cada 1000 milisegundos (1 segundo)
+        Timer timer = new Timer(1000, e -> {
+            // Obtener la fecha y hora actuales
+            Date fechaActual = new Date();
+
+            // Formatear la fecha
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+            String fechaFormateada = formatoFecha.format(fechaActual);
+
+            // Formatear la hora
+            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+            String horaFormateada = formatoHora.format(fechaActual);
+
+            // Mostrar la fecha y hora en los JLabels
+            labelFecha.setText(fechaFormateada);
+            labelHora.setText(horaFormateada);
+        });
+
+        // Iniciar el Timer
+        timer.start();
     }
      // Variables declaration - do not modify
     //private javax.swing.JLabel labelFecha;

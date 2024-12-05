@@ -8,15 +8,19 @@ import dao.AsistenciaDao;
 import dao.ComunaDao;
 import dao.TurnoDao;
 import dao.UsuariosDao;
+import dto.Atrasos;
+import dto.Ausencia;
 import dto.Comuna;
 import dto.Empleado;
 import dto.EmpleadoCreationReq;
+import dto.SalidasAnticipadas;
 import dto.Turno;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -39,8 +43,15 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         
-        mostrarFechaYHora();
+        iniciarActualizacionDeHora();
+        
+        inicializarFechaSeleccionada();
+        
         llenarTabla();
+        llenarTablaAtrasos();
+        llenarTablaSalidasAnticipadas();
+        llenarTablaInasistencias();
+        
         llenarComboBoxComunas();
         llenarComboBoxRoles();
         llenarComboBoxContrato();
@@ -93,24 +104,28 @@ public class Principal extends javax.swing.JFrame {
         
         this.setLocationRelativeTo(null);
     }
+    
+    private void iniciarActualizacionDeHora() {
+        // Crear un Timer que actualice la hora cada 1000 milisegundos (1 segundo)
+        Timer timer = new Timer(1000, e -> {
+            // Obtener la fecha y hora actuales
+            Date fechaActual = new Date();
 
-    private void mostrarFechaYHora() {
-        // Crear un objeto Date con la fecha y hora actuales
-        Date fechaActual = new Date();
-        
-        // Formatear la fecha
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaFormateada = formatoFecha.format(fechaActual);
-        
-        // Formatear la hora
-        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
-        String horaFormateada = formatoHora.format(fechaActual);
-        
-        // Mostrar la fecha en el JLabel de la fecha
-        labelFecha.setText(fechaFormateada);
-        
-        // Mostrar la hora en el JLabel de la hora
-        labelHora.setText(horaFormateada);
+            // Formatear la fecha
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+            String fechaFormateada = formatoFecha.format(fechaActual);
+
+            // Formatear la hora
+            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+            String horaFormateada = formatoHora.format(fechaActual);
+
+            // Mostrar la fecha y hora en los JLabels
+            labelFecha.setText(fechaFormateada);
+            labelHora.setText(horaFormateada);
+        });
+
+        // Iniciar el Timer
+        timer.start();
     }
     
     public void llenarTabla() {
@@ -146,6 +161,95 @@ public class Principal extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.out.println("llenarTabla(): Error al llenar la tabla: " + e.getMessage());
+        }
+    }
+    
+    public void llenarTablaAtrasos(){
+        try {
+            // Obtener la lista de empleados
+            List<Atrasos> atrasos = this.asistenciaService.obtenerAtrasos();
+
+            if (atrasos != null) {
+                // Modelo de la tabla
+                DefaultTableModel model = (DefaultTableModel) registrosAtrasosTable.getModel();
+
+                // Limpiar datos previos en la tabla
+                model.setRowCount(0);
+
+                // Llenar la tabla con los datos de empleados
+                for (Atrasos atraso : atrasos) {
+                    model.addRow(new Object[]{
+                        atraso.getFechaRegistro(),
+                        atraso.getNombreEmpleado(),
+                        atraso.getRutEmpleado(),
+                        atraso.getTurnoEmpleado(),
+                        atraso.getHoraEntrada()
+                    });
+                }
+            } else {
+                System.out.println("llenarTablaAtrasos():No se pudieron obtener los empleados.");
+            }
+        } catch (Exception e) {
+            System.out.println("llenarTablaAtrasos(): Error al llenar la tabla: " + e.getMessage());
+        }
+    }
+    
+    public void llenarTablaSalidasAnticipadas(){
+        try {
+            // Obtener la lista de empleados
+            List<SalidasAnticipadas> salidas = this.asistenciaService.obtenerSalidasAnticipadas();
+
+            if (salidas != null) {
+                // Modelo de la tabla
+                DefaultTableModel model = (DefaultTableModel) registrosSalidasAntTable.getModel();
+
+                // Limpiar datos previos en la tabla
+                model.setRowCount(0);
+
+                // Llenar la tabla con los datos de empleados
+                for (SalidasAnticipadas salida : salidas) {
+                    model.addRow(new Object[]{
+                        salida.getFechaRegistro(),
+                        salida.getNombreEmpleado(),
+                        salida.getRutEmpleado(),
+                        salida.getTurnoEmpleado(),
+                        salida.getHoraSalida()
+                    });
+                }
+            } else {
+                System.out.println("llenarTablaAtrasos():No se pudieron obtener los empleados.");
+            }
+        } catch (Exception e) {
+            System.out.println("llenarTablaAtrasos(): Error al llenar la tabla: " + e.getMessage());
+        }
+    }
+    
+    public void llenarTablaInasistencias(){
+        try {
+            // Obtener la lista de empleados
+            List<Ausencia> ausencias = this.asistenciaService.obtenerInasistencias(fechaSeleccionada.getText());
+
+            if (ausencias != null) {
+                // Modelo de la tabla
+                DefaultTableModel model = (DefaultTableModel) registrosAusenciasTable.getModel();
+
+                // Limpiar datos previos en la tabla
+                model.setRowCount(0);
+
+                // Llenar la tabla con los datos de empleados
+                for (Ausencia ausencia : ausencias) {
+                    model.addRow(new Object[]{
+                        ausencia.getFechaRegistro(),
+                        ausencia.getNombreEmpleado(),
+                        ausencia.getRut(),
+                        ausencia.getTurno()
+                    });
+                }
+            } else {
+                System.out.println("llenarTablaInasistencias():No se pudieron obtener los empleados.");
+            }
+        } catch (Exception e) {
+            System.out.println("llenarTablaInasistencias(): Error al llenar la tabla: " + e.getMessage());
         }
     }
     
@@ -272,6 +376,7 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCalendar1 = new com.toedter.calendar.JCalendar();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnEntradaSalida = new javax.swing.JButton();
@@ -280,6 +385,7 @@ public class Principal extends javax.swing.JFrame {
         btnTurnos = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
+        btnReportes1 = new javax.swing.JButton();
         panelPrincipal = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -320,10 +426,27 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         empleadosTable = new javax.swing.JTable();
         btnRefrescar = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        registrosSalidasAntTable = new javax.swing.JTable();
+        labelAtraso = new javax.swing.JLabel();
+        labelSalidaAnticipada = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        registrosAtrasosTable = new javax.swing.JTable();
+        labelInsasistencias = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        registrosAusenciasTable = new javax.swing.JTable();
+        btnAtrasoExport = new javax.swing.JButton();
+        btnSalidaAntExport = new javax.swing.JButton();
+        btnAusExport = new javax.swing.JButton();
+        btnActualizarAtrasReport = new javax.swing.JButton();
+        btnActualizarReportSalidAnt = new javax.swing.JButton();
+        btnActualizarAus = new javax.swing.JButton();
+        calendarioReporte = new com.toedter.calendar.JCalendar();
+        fechaInasistencia = new javax.swing.JLabel();
+        fechaSeleccionada = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -373,7 +496,7 @@ public class Principal extends javax.swing.JFrame {
         btnTurnos.setBackground(new java.awt.Color(51, 204, 255));
         btnTurnos.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         btnTurnos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/diablo2.png"))); // NOI18N
-        btnTurnos.setText("Turnos");
+        btnTurnos.setText("Correcciones");
         btnTurnos.setBorder(null);
         btnTurnos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTurnos.addActionListener(new java.awt.event.ActionListener() {
@@ -397,6 +520,18 @@ public class Principal extends javax.swing.JFrame {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo3.png"))); // NOI18N
 
+        btnReportes1.setBackground(new java.awt.Color(51, 204, 255));
+        btnReportes1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        btnReportes1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reportes2.png"))); // NOI18N
+        btnReportes1.setText("Turnos");
+        btnReportes1.setBorder(null);
+        btnReportes1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReportes1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportes1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -406,12 +541,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnEntradaSalida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnGestionUsuarios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                            .addComponent(btnCerrar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnTurnos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnReportes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEntradaSalida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGestionUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                            .addComponent(btnCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTurnos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnReportes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnReportes1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
@@ -424,9 +560,11 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnGestionUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnReportes1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnTurnos, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCerrar)
                 .addContainerGap())
@@ -447,8 +585,10 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(81, 81, 81)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelHora)
-                    .addComponent(labelFecha))
+                    .addComponent(labelFecha)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(labelHora)))
                 .addContainerGap(96, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -482,14 +622,15 @@ public class Principal extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(412, 412, 412)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(412, 412, 412)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(459, 459, 459)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnMarcarSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnMarcarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(39, 39, 39)))
+                            .addComponent(btnMarcarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(453, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -497,11 +638,11 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(107, 107, 107)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(129, 129, 129)
+                .addGap(128, 128, 128)
                 .addComponent(btnMarcarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnMarcarSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         panelPrincipal.addTab("Control Asistencia", jPanel4);
@@ -756,7 +897,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(datosPersonales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 7, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -772,19 +913,6 @@ public class Principal extends javax.swing.JFrame {
 
         panelPrincipal.addTab("Gestion Usuarios", jPanel5);
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1114, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 632, Short.MAX_VALUE)
-        );
-
-        panelPrincipal.addTab("Reportes", jPanel6);
-
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -793,7 +921,7 @@ public class Principal extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 632, Short.MAX_VALUE)
+            .addGap(0, 625, Short.MAX_VALUE)
         );
 
         panelPrincipal.addTab("Turnos", jPanel7);
@@ -806,23 +934,220 @@ public class Principal extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 632, Short.MAX_VALUE)
+            .addGap(0, 625, Short.MAX_VALUE)
         );
 
         panelPrincipal.addTab("Correcion Asistencia", jPanel8);
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1114, Short.MAX_VALUE)
+        registrosSalidasAntTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Fecha Registro", "Nombre Empleado", "Rut Empleado", "Turno Empleado", "Hora Salida"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(registrosSalidasAntTable);
+
+        labelAtraso.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        labelAtraso.setText("Registros de Atrasos");
+        labelAtraso.setToolTipText("");
+
+        labelSalidaAnticipada.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        labelSalidaAnticipada.setText("Registro de Salida Anticipada");
+        labelSalidaAnticipada.setToolTipText("");
+
+        registrosAtrasosTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Fecha Registro", "Nombre Empleado", "Rut Empleado", "Turno Empleado", "Hora Entrada"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(registrosAtrasosTable);
+        if (registrosAtrasosTable.getColumnModel().getColumnCount() > 0) {
+            registrosAtrasosTable.getColumnModel().getColumn(3).setHeaderValue("Turno Empleado");
+            registrosAtrasosTable.getColumnModel().getColumn(4).setHeaderValue("Hora Entrada");
+        }
+
+        labelInsasistencias.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        labelInsasistencias.setText("Registro de Inasistencias");
+        labelInsasistencias.setToolTipText("");
+
+        registrosAusenciasTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Fecha Registro", "Nombre Empleado", "Rut Empleado", "Turno"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(registrosAusenciasTable);
+
+        btnAtrasoExport.setText("Exportar");
+
+        btnSalidaAntExport.setText("Exportar");
+
+        btnAusExport.setText("Exportar");
+
+        btnActualizarAtrasReport.setText("Actualizar Datos");
+        btnActualizarAtrasReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarAtrasReportActionPerformed(evt);
+            }
+        });
+
+        btnActualizarReportSalidAnt.setText("Actualizar Datos");
+        btnActualizarReportSalidAnt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarReportSalidAntActionPerformed(evt);
+            }
+        });
+
+        btnActualizarAus.setText("Actualizar Datos");
+        btnActualizarAus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarAusActionPerformed(evt);
+            }
+        });
+
+        calendarioReporte.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                calendarioReportePropertyChange(evt);
+            }
+        });
+
+        fechaInasistencia.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        fechaInasistencia.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        fechaInasistencia.setToolTipText("");
+
+        fechaSeleccionada.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        fechaSeleccionada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fechaSeleccionada.setText("seleccionar fecha");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1108, Short.MAX_VALUE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(labelInsasistencias)
+                        .addGap(18, 18, 18)
+                        .addComponent(fechaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(fechaInasistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnActualizarAus)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAusExport))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(labelAtraso)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizarAtrasReport)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAtrasoExport))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(labelSalidaAnticipada)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizarReportSalidAnt)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSalidaAntExport))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 868, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(calendarioReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 632, Short.MAX_VALUE)
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelAtraso)
+                    .addComponent(btnAtrasoExport)
+                    .addComponent(btnActualizarAtrasReport))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelSalidaAnticipada)
+                    .addComponent(btnSalidaAntExport)
+                    .addComponent(btnActualizarReportSalidAnt))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelInsasistencias)
+                    .addComponent(btnAusExport)
+                    .addComponent(btnActualizarAus)
+                    .addComponent(fechaInasistencia)
+                    .addComponent(fechaSeleccionada))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(calendarioReporte, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
-        panelPrincipal.addTab("Registro Ausencia", jPanel10);
+        panelPrincipal.addTab("Reportes", jPanel6);
 
         jPanel3.setBackground(new java.awt.Color(0, 102, 102));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -866,7 +1191,7 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(panelPrincipal)
                 .addContainerGap())
         );
@@ -902,7 +1227,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionUsuariosActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        panelPrincipal.setSelectedIndex(2);
+        panelPrincipal.setSelectedIndex(4);
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnosActionPerformed
@@ -1009,6 +1334,42 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnModificarUsuarioActionPerformed
 
+    private void calendarioReportePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarioReportePropertyChange
+        if(evt.getOldValue() != null){
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            fechaSeleccionada.setText(formatoFecha.format(calendarioReporte.getCalendar().getTime()));
+            llenarTablaInasistencias();
+        }
+    }//GEN-LAST:event_calendarioReportePropertyChange
+
+    private void inicializarFechaSeleccionada() {
+        // Comprueba si el calendario tiene una fecha seleccionada
+        if (calendarioReporte.getDate() != null) {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            fechaSeleccionada.setText(formatoFecha.format(calendarioReporte.getCalendar().getTime()));
+        }
+    }
+    
+    private void btnActualizarAusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarAusActionPerformed
+        // TODO add your handling code here:
+        llenarTablaInasistencias();
+    }//GEN-LAST:event_btnActualizarAusActionPerformed
+
+    private void btnActualizarReportSalidAntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarReportSalidAntActionPerformed
+        // TODO add your handling code here:
+        llenarTablaSalidasAnticipadas();
+    }//GEN-LAST:event_btnActualizarReportSalidAntActionPerformed
+
+    private void btnActualizarAtrasReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarAtrasReportActionPerformed
+        // TODO add your handling code here:
+        llenarTablaAtrasos();
+    }//GEN-LAST:event_btnActualizarAtrasReportActionPerformed
+
+    private void btnReportes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportes1ActionPerformed
+        // TODO add your handling code here:
+        panelPrincipal.setSelectedIndex(2);
+    }//GEN-LAST:event_btnReportes1ActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -1048,6 +1409,11 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField apellidoMaternoField;
     private javax.swing.JTextField apellidoPaternoField;
+    private javax.swing.JButton btnActualizarAtrasReport;
+    private javax.swing.JButton btnActualizarAus;
+    private javax.swing.JButton btnActualizarReportSalidAnt;
+    private javax.swing.JButton btnAtrasoExport;
+    private javax.swing.JButton btnAusExport;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnCrearUsuario;
     private javax.swing.JButton btnEntradaSalida;
@@ -1057,16 +1423,21 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnModificarUsuario;
     private javax.swing.JButton btnRefrescar;
     private javax.swing.JButton btnReportes;
+    private javax.swing.JButton btnReportes1;
+    private javax.swing.JButton btnSalidaAntExport;
     private javax.swing.JButton btnTurnos;
+    private com.toedter.calendar.JCalendar calendarioReporte;
     private javax.swing.JTextField correoField;
     private javax.swing.JPanel datosLaborales;
     private javax.swing.JPanel datosPersonales;
     private javax.swing.JTextField direccionField;
     private javax.swing.JTable empleadosTable;
+    private javax.swing.JLabel fechaInasistencia;
+    private javax.swing.JLabel fechaSeleccionada;
+    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1076,19 +1447,25 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel labelActivo;
     private javax.swing.JLabel labelApellidoMaterno;
     private javax.swing.JLabel labelApellidoPaterno;
+    private javax.swing.JLabel labelAtraso;
     private javax.swing.JLabel labelComuna;
     private javax.swing.JLabel labelCorreo;
     private javax.swing.JLabel labelDepartamento;
     private javax.swing.JLabel labelDireccion;
     private javax.swing.JLabel labelFecha;
     private javax.swing.JLabel labelHora;
+    private javax.swing.JLabel labelInsasistencias;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelRolSistema;
     private javax.swing.JLabel labelRut;
+    private javax.swing.JLabel labelSalidaAnticipada;
     private javax.swing.JLabel labelTipoContrato;
     private javax.swing.JLabel labelTurno;
     private javax.swing.JComboBox<String> listaActivo;
@@ -1099,6 +1476,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> listaTurno;
     private javax.swing.JTextField nombreField;
     private javax.swing.JTabbedPane panelPrincipal;
+    private javax.swing.JTable registrosAtrasosTable;
+    private javax.swing.JTable registrosAusenciasTable;
+    private javax.swing.JTable registrosSalidasAntTable;
     private javax.swing.JTextField rutField;
     // End of variables declaration//GEN-END:variables
 }
