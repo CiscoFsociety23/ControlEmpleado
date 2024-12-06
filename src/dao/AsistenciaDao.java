@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
  */
 public class AsistenciaDao {
     
-    private String dominio = "https://dev.dedsec.cl";
+    private String dominio = "http://dedsec.cl:9043";
     
     public Boolean registarMarcaje(Empleado empleado, String tipoMarca){
         try {

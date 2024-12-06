@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class TurnoDao {
     
-    private String dominio = "https://dev.dedsec.cl";
+    private String dominio = "http://dedsec.cl:9043";
     
     public List<Turno> obtenerTurnos(){
         try {

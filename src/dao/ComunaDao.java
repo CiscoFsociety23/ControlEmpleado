@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ComunaDao {
     
-    private String dominio = "https://dev.dedsec.cl";
+    private String dominio = "http://dedsec.cl:9043";
     
     public List<Comuna> obtenerComunas(){
         try {
